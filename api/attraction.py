@@ -150,7 +150,7 @@ async def get_mrts():
             mrts = cursor.fetchall() # [(...), (...), ...] 型態會是list裡裝tuple
             mrt_list = [mrt[0] for mrt in mrts if mrt[0] is not None] # 直接去掉tuple，並且篩選掉 null
         return JSONResponse(
-            status_code=200,
+            status_code=200, 
             content={
                 "data": mrt_list
             }
