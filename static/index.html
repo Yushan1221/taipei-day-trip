@@ -3,9 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/css/index.css">
+  <script src="/static/js/index.js" defer></script>
   <title>Index</title>
 </head>
 <body>
-  
+  <div class="header ">
+    <div class="container navbar">
+      <div class="title">台北一日遊</div>
+      <div class="menu">
+          <div class="menu_btn">預定行程</div>
+          <div class="menu_btn">登入/註冊</div>
+      </div>
+    </div>
+  </div>
+  <div class="top-space"></div>
+
+  <div class="hero-section ">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="font-h1 hero-title">輕鬆享受台北一日悠閒</div>
+        <div class="font-body bold">探索每個角落，體驗城市的深度旅遊行程</div>
+      </div>
+      <div class="search-bar">
+        <div class="selector font-body"><span id="category-now">全部分類</span> ▼
+          <div class="category-block font-category">
+            <!-- 分類列表 -->
+          </div>
+        </div>
+        <input class="textbox font-body bold" id="attraction-textbox" type="text" value="" placeholder="輸入景點名稱查詢">
+        <div id="search-btn" class="btn"><img src="/static/img/search.png" alt="search button"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container attraction-section">
+    <div class="list-bar">
+      <div id="left-btn" class="arrow-btn"></div>
+      <div class="mrt-list">
+        <!-- 捷運站列表 -->
+      </div>
+      <div id="right-btn" class="arrow-btn"></div>
+    </div>
+  </div>
+
+  <div class="main-container container">
+    <div class="attraction-block" id="attraction-block">
+      <!-- 景點卡片 -->
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="font-body bold">COPYRIGHT © 2021 台北一日遊</div>
+  </div>
+
 </body>
 </html>
