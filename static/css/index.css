@@ -118,7 +118,7 @@ body {
 }
 
 .top-space {
-    width: 100dvw;
+    width: 100%;
     padding: 10px 0;
     background-color: #FFFFFF;
     height: 54px;
