@@ -12,7 +12,7 @@ conn = sql.get_connection()
 
 @router.get("/attractions")
 async def get_attractions_list(
-    page: int = Query(..., ge=0), # ge=>大於或等於，le=>小於或等於
+    page: int = Query(0, ge=0), # ge=>大於或等於，le=>小於或等於
     category: str = Query(None),
     keyword: str = Query(None)
 ):

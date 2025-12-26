@@ -1,11 +1,14 @@
 from fastapi import *
 from fastapi.responses import FileResponse
 from api.router import router as api_router
+from fastapi.staticfiles import StaticFiles
 app=FastAPI()
 
 # router 
 # /api
 app.include_router(api_router)
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Static Pages (Never Modify Code in this Block)
 @app.get("/", include_in_schema=False)
