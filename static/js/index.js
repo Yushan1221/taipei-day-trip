@@ -43,13 +43,15 @@ function createCardElement(attr) {
     
     return `
         <div class="attraction-block__card lg-3 md-4 sm-12">
-            <div class="card-img" style="background-image: url('${attr.images[0]}')">
-                <div class="card-title font-body bold">${attr.name}</div>
-            </div>
-            <div class="card-detail font-body">
-                <div>${mrt}</div>
-                <div>${attr.category}</div>
-            </div>
+            <a href="/attraction/${attr.id}">
+                <div class="card-img" style="background-image: url('${attr.images[0]}')">
+                    <div class="card-title font-body bold">${attr.name}</div>
+                </div>
+                <div class="card-detail font-body">
+                    <div>${mrt}</div>
+                    <div>${attr.category}</div>
+                </div>
+            </a>
         </div>
     `;
 
@@ -135,6 +137,10 @@ async function initMrtList() {
     });
 }
 
+// 景點 card 連接景點頁面
+
+
+
 // 左右箭頭滾動 mrt 列表
 const mrtList= document.querySelector(".mrt-list");
 const mrtLeftBtn = document.getElementById("left-btn");
@@ -151,7 +157,7 @@ mrtRightBtn.addEventListener("click", () => {
 // 監測視窗的條件設置
 const observerOptions = {
     root: null, // 預設以瀏覽器視窗為準
-    rootMargin: "50px", // 提前50px觸發
+    rootMargin: "100px", // 提前100px觸發
     threshold: 0.1 // 當目標出現 10% 時觸發
 };
 // 建立 Intersection Observer 來監測視窗滾動底部
