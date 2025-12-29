@@ -2,14 +2,12 @@ from fastapi import APIRouter, Query
 from fastapi.responses import JSONResponse
 import json
 # module
-from scripts import sql_connector as sql
+from scripts import sql_connector
 
 router = APIRouter()
 
-# 連線資料庫
-conn = sql.get_connection()
 
-
+# 依照條件抓所有景點列表
 @router.get("/attractions")
 async def get_attractions_list(
     page: int = Query(0, ge=0), # ge=>大於或等於，le=>小於或等於
@@ -31,7 +29,10 @@ async def get_attractions_list(
     sql += "ORDER BY id LIMIT 8 OFFSET %s;"
     parameters.append(offset)
 
+    conn = None # 宣告連線資料庫的變數
     try:
+        # 連線資料庫
+        conn = sql_connector.get_connection()
         with conn.cursor() as cursor:
             cursor.execute(sql, parameters)
             attrs = cursor.fetchall()
@@ -68,12 +69,18 @@ async def get_attractions_list(
                 "message": "資料庫取得[分頁景點列表]錯誤"
             }
         )
+    finally:
+        if conn and conn.is_connected():
+            conn.close()
 
 # 抓景點資訊
 @router.get("/attraction/{attractionId}")
 async def get_attraction(attractionId: int):
     sql = "SELECT * FROM attractions WHERE id = %s;"
+    conn = None # 宣告連線資料庫的變數
     try:
+        # 連線資料庫
+        conn = sql_connector.get_connection()
         with conn.cursor() as cursor:
             cursor.execute(sql, (attractionId, ))
             attr_data = cursor.fetchone() # (...) 型態會是tuple
@@ -112,13 +119,20 @@ async def get_attraction(attractionId: int):
                 "message": "資料庫取得[景點資訊]錯誤"
             }
         )
+    finally:
+        if conn and conn.is_connected():
+            conn.close()
 
 # 抓景點類別名稱
 @router.get("/categories")
 async def get_categories():
     sql = "SELECT category FROM attractions " \
         "GROUP BY category ORDER BY COUNT(id) DESC;"
+    
+    conn = None # 宣告連線資料庫的變數
     try:
+        # 連線資料庫
+        conn = sql_connector.get_connection()
         with conn.cursor() as cursor:
             cursor.execute(sql)
             categories = cursor.fetchall() # [(...), (...), ...] 型態會是list裡裝tuple
@@ -138,13 +152,19 @@ async def get_categories():
                 "message": "資料庫取得[景點分類名稱]錯誤"
             }
         )
+    finally:
+        if conn and conn.is_connected():
+            conn.close()
 
 # 抓捷運站名稱
 @router.get("/mrts")
 async def get_mrts():
     sql = "SELECT mrt FROM attractions " \
         "GROUP BY mrt ORDER BY COUNT(id) DESC;"
+    conn = None # 宣告連線資料庫的變數
     try:
+        # 連線資料庫
+        conn = sql_connector.get_connection()
         with conn.cursor() as cursor:
             cursor.execute(sql)
             mrts = cursor.fetchall() # [(...), (...), ...] 型態會是list裡裝tuple
@@ -164,3 +184,6 @@ async def get_mrts():
                 "message": "資料庫取得[捷運站名稱]錯誤"
             }
         )
+    finally:
+        if conn and conn.is_connected():
+            conn.close()
