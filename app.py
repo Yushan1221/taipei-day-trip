@@ -1,5 +1,5 @@
 from fastapi import *
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from api.router import router as api_router
 from fastapi.staticfiles import StaticFiles
 app=FastAPI()
@@ -8,7 +8,19 @@ app=FastAPI()
 # /api
 app.include_router(api_router)
 
+# CSS
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# 統一回傳錯誤格式
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "error": True,
+            "message": exc.detail
+        }
+    )
 
 # Static Pages (Never Modify Code in this Block)
 @app.get("/", include_in_schema=False)
