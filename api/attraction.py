@@ -1,14 +1,40 @@
 from fastapi import APIRouter, Query
 from fastapi.responses import JSONResponse
 import json
+from pydantic import BaseModel
+from typing import List, Optional
 # module
 from scripts import sql_connector
 
 router = APIRouter()
 
+# BaseModel
+class Attraction(BaseModel):
+    id: int
+    name: str
+    category: str
+    description: str
+    address: str
+    transport: str
+    mrt: str
+    lat: float
+    lng: float
+    images: str
+
+class AttractionListResponse(BaseModel):
+    nextPage: Optional[int]
+    data: List[Attraction]
+
+class Error(BaseModel):
+    error: bool
+    message: str
+
+
 
 # 依照條件抓所有景點列表
-@router.get("/attractions")
+@router.get("/attractions", 
+            response_model=AttractionListResponse,
+            responses={500: {"model": Error}})
 async def get_attractions_list(
     page: int = Query(0, ge=0), # ge=>大於或等於，le=>小於或等於
     category: str = Query(None),
