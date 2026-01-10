@@ -36,7 +36,7 @@ class Error(BaseModel):
              response_model=Success,
              responses={400: {"model": Error}, 500: {"model": Error}})
 def sign_up(user: UserSignUpInput):
-    sql = "SELECT email FROM member WHERE email = %s;"
+    sql = "SELECT email FROM members WHERE email = %s;"
     conn = None
     try:
         # 連線資料庫
@@ -52,7 +52,7 @@ def sign_up(user: UserSignUpInput):
                     detail="此電子郵件信箱已被註冊，請使用其他信箱。"
                 )
             else: # 信箱沒有重複，可以註冊
-                sql = "INSERT INTO member(name, email, password) VALUES(%s, %s, %s);"
+                sql = "INSERT INTO members(name, email, password) VALUES(%s, %s, %s);"
                 hashed_password = auth.get_password_hash(user.password) # hash 加密
                 cursor.execute(sql, (user.name, user.email.lower(), hashed_password))
                 conn.commit()
@@ -76,7 +76,7 @@ def sign_up(user: UserSignUpInput):
 #region 登入帳戶 api/user/auth
 @router.put("/auth")
 def sign_in(user: UserSignInInput):
-    sql = "SELECT * FROM member WHERE email=%s;"
+    sql = "SELECT * FROM members WHERE email=%s;"
     conn = None
     try:
         # 驗證信箱

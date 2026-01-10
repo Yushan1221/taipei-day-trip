@@ -6,8 +6,7 @@
   <link rel="stylesheet" href="/static/css/style.css">
   <link rel="stylesheet" href="/static/css/attraction.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script src="/static/js/attraction.js" defer></script>
-  <script src="/static/js/auth.js" defer></script>
+  <script type="module" src="/static/js/attraction.js"></script>
   <title>Attraction</title>
 </head>
 <body>
@@ -16,7 +15,7 @@
     <div class="container navbar">
       <div class="title"><a href="/">台北一日遊</a></div>
       <div class="menu">
-          <div class="menu_btn">預定行程</div>
+          <div class="menu_btn" id="menu_booking-btn">預定行程</div>
           <div class="menu_btn" id="menu_auth-container"></div>
       </div>
     </div>
@@ -26,7 +25,7 @@
   <!-- 景點圖與訂購專區 -->
   <div class="hero-section container">
     <div class="img-section lg-9" id="img-section">
-      <div id="loading-spinner" class="spinner"></div>
+      <div id="loading-spinner" class="spinner loader"></div>
       
       <div class="img-left-btn arrow-btn" id="img-left-btn"></div>
       <div class="img-right-btn arrow-btn" id="img-right-btn"></div>
@@ -41,21 +40,22 @@
         <div class="booking-label">以此景點為中心的一日行程，帶您探索城市角落故事</div>
         <div class="booking-label"><span class="bold">選擇日期：</span>
           <input type="date" id="trip-date" name="trip-date">
+          <span class="check-alert" id="date-alert"><i class="fa-solid fa-triangle-exclamation"></i> 請選擇日期</span>
         </div>
         <div class="booking-label"><span class="bold">選擇時間：</span>
           <label for="morning" class="radio-container">
-            <input type="radio" name="trip-time" id="morning" value="新台幣2000元" checked>
+            <input type="radio" name="trip-time" id="morning" value="2000" checked>
             <span class="radio-checkmark"></span>           
             上半天
           </label>          
           <label for="afternoon" class="radio-container">
-            <input type="radio" name="trip-time" id="afternoon" value="新台幣2500元">
+            <input type="radio" name="trip-time" id="afternoon" value="2500">
             <span class="radio-checkmark"></span>            
             下半天
           </label>
         </div>
         <div class="booking-label"><span class="bold">導覽費用：</span>
-          <span id="trip-price">新台幣2000元</span>
+          新台幣 <span id="trip-price">2000</span> 元
         </div>
         <div class="booking-btn font-btn" id="booking-btn">開始預約行程</div>
       </div>

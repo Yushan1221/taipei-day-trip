@@ -1,8 +1,16 @@
+import { initAuth, getUserInfo, openLoginDialog } from "./auth.js";
+import { showErrorMessage, showLoading, hideLoading } from "./utils.js";
+
 let currentImgIndex = 0; // 目前圖片索引
 const imgPreloadArr = []; // 預載入圖片暫存區
 
 // 載入頁面時 fetch 資料
 window.addEventListener("DOMContentLoaded", async () => {
+    // 驗證登入，渲染導覽列
+    initAuth();
+
+    setInputField();
+
     // 抓路徑參數，去頭去尾"/"，避免有網址的最後有"/"
     const urlParts = window.location.pathname.replace(/^\/|\/$/g, '').split('/');
     const id = urlParts[urlParts.length - 1]; // === "attraction" ? "" : urlParts[urlParts.length - 1]
@@ -23,13 +31,16 @@ window.addEventListener("DOMContentLoaded", async () => {
             // 產生景點頁面資料，並進行圖片預處理
             const data = await response.json();
             const attrInfo = data.data;
-            renderAttractionUI(attrInfo); 
+            renderAttractionUI(attrInfo);
             imgPreload(attrInfo.images);
+
+            // 下訂按鈕
+            addBookingEvent(id);  
         }
         catch (err) {
             console.error("景點資料載入錯誤：", err);
             showErrorMessage("景點資料載入錯誤，請稍後再試");
-        }       
+        }
     }
 });
 
@@ -133,21 +144,94 @@ function imgPreload (Images) {
     }, 1000);
 }
 
-// 錯誤訊息
-function showErrorMessage(message) {
-    alert(message);
-    window.location.href = "/";
+
+// input 欄位設置
+function setInputField() {
+    // 依照選項更改價格
+    const tripTime = document.querySelectorAll('input[name="trip-time"]');
+    const tripPrice = document.getElementById('trip-price');
+    tripTime.forEach((radio) => {
+        radio.addEventListener("change", (e) => {
+            tripPrice.textContent = e.target.value;
+        });
+    });
+
+    // 日期只能選當天之後
+    const tripDate = document.getElementById("trip-date");
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    tripDate.min = `${yyyy}-${mm}-${dd}`;
+
 }
 
 
-// 依照選項更改價格
-const tripTime = document.querySelectorAll('input[name="trip-time"]');
-const tripPrice = document.getElementById('trip-price');
-tripTime.forEach((radio) => {
-    radio.addEventListener("change", (e) => {
-        tripPrice.textContent = e.target.value;
+function addBookingEvent(id) {
+    document.getElementById("booking-btn").addEventListener("click", async ()=> {
+        // fetch 開始先 loading
+        showLoading();
+
+        // 檢查登入狀態
+        const userInfo = await getUserInfo();
+        if (!userInfo || userInfo.data === null) {
+            openLoginDialog();
+            hideLoading();
+            return;
+        }
+
+        // 檢查日期必填
+        const tripDate = document.getElementById("trip-date");
+        const dateAlert = document.getElementById("date-alert");
+        if (!tripDate.value) {
+            dateAlert.style.display = "block";
+            hideLoading();
+            return;
+        }
+        else {
+            dateAlert.style.display = "none";
+        }
+
+        // fetch 新增行程 API
+        const tripTime = document.querySelector('input[name="trip-time"]:checked');
+        const tripPrice = Number(tripTime.value);
+        try {
+            const response = await fetch("/api/booking", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("jwt_token")}`
+                },
+                body: JSON.stringify({ 
+                    "attractionId": Number(id),
+                    "date": tripDate.value,
+                    "time": tripTime.id,
+                    "price": tripPrice
+                })
+            });
+            const data = await response.json();
+
+            if (response.status === 403) {
+                openLoginDialog();
+                return;
+            }
+            if (response.status === 400) {
+                alert(data.message);
+                return;
+            }
+            if (!response.ok) {
+                throw new Error(`HTTP error: ${response.status}`);
+            }
+
+            // 預約成功，導到 booking 頁面
+            window.location.href = "/booking";
+        }
+        catch {
+            console.error("新增預約行程錯誤：", err);
+            showErrorMessage("新增預約行程錯誤，請稍後再試");
+        }
+        finally {
+            hideLoading();
+        }
     });
-});
-
-
-
+}
