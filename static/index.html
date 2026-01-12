@@ -6,8 +6,7 @@
   <link rel="stylesheet" href="/static/css/style.css">
   <link rel="stylesheet" href="/static/css/index.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script src="/static/js/index.js" defer></script>
-  <script src="/static/js/auth.js" defer></script>
+  <script type="module" src="/static/js/index.js"></script>
   <title>Index</title>
 </head>
 <body>
@@ -16,7 +15,7 @@
     <div class="container navbar">
       <div class="title"><a href="/">台北一日遊</a></div>
       <div class="menu">
-          <div class="menu_btn">預定行程</div>
+          <div class="menu_btn" id="menu_booking-btn">預定行程</div>
           <div class="menu_btn" id="menu_auth-container"></div>
       </div>
     </div>

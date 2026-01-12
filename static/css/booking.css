@@ -1,0 +1,169 @@
+.booking-hidden {
+    display: none;
+}
+
+.booking-section {
+    color: #666666;
+    padding: 40px 0;
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.margin-box {
+    margin: 0 110px;
+}
+
+.booking-title {
+    padding: 0 100px;
+    padding-bottom: 30px;
+}
+
+.non-booking {
+    padding: 0 100px;
+    display: none;
+}
+
+.booking-container {
+    position: relative;
+    display: flex;
+    gap: 30px;
+    padding-right: 30px;
+}
+
+.booking-img {
+    width: 250px;
+    height: 200px;
+    background-color: #448899;
+}
+
+.booking-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.booking-info_title {
+    color: #448899;
+    padding-bottom: 20px;
+    line-height: 24px;
+}
+
+.booking-info_label {
+    line-height: 24px;
+    padding-bottom: 10px;
+}
+
+.booking-info_label span {
+    font-weight: 400;
+}
+
+.delete-btn {
+    background-image: url(../img/delete.png);
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
+
+
+.form {
+    line-height: 24px;
+}
+
+.form_title {
+    padding-bottom: 20px;
+}
+
+.form_label {
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.form_input {
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    border: 1px solid #E8E8E8;
+    border-radius: 5px;
+    outline: none;
+    transition: box-shadow 0.2s;
+    letter-spacing: 1px;
+}
+
+.form_input:focus {
+    box-shadow: 0 0 4px rgba(188, 187, 187, 0.3);
+    border-color: #cccccc;
+}
+
+/* 確認區 */
+.comfirm-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+}
+
+.comfirm-text {
+    padding-bottom: 22px;
+}
+
+.comfirm-btn {
+    margin-bottom: 25px;
+    padding: 10px 20px;
+    background-color: #448899;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 173px;
+    transition: all 0.3s;
+}
+
+.comfirm-btn:hover {
+    background-color: #337788;
+}
+
+/* RWD */
+@media (max-width: 1200px) {
+    .container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .booking-section {
+        width: calc(100% - 20px);
+        margin: 0 10px;
+    }
+
+    .booking-title {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .margin-box {
+        margin: 0;
+    }
+}
+
+@media (max-width: 500px) {
+    .booking-container {
+        flex-direction: column;
+        padding-right: 0;
+    }
+
+    .booking-img {
+        width: 100%;
+    }
+
+    .booking-info {
+        height: 200px;
+    }
+
+    .delete-btn {
+        top: unset;
+        bottom: 0;
+    }
+}

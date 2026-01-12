@@ -38,13 +38,14 @@ def create_jwt_token(data: dict):
     encoded_token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_token
 
-
-def get_user_data(token: str):
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return payload
-    except Exception as e:
-        print("JWT 驗證失敗", e)
-        return None
+# 驗證 token
+def get_user_data(token: str | None):
+    if token:
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            return payload
+        except Exception as e:
+            print("JWT 驗證失敗", e)
+            return None
     
     

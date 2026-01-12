@@ -3,9 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/booking.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script type="module" src="/static/js/booking.js"></script>
+  
   <title>Booking</title>
 </head>
 <body>
+  <!-- loading -->
+  <div id="loading-overlay" class="loading-overlay" style="display: none;">
+    <div class="loader"></div>
+  </div>
+
+  <!-- 導覽列 -->
+  <div class="header ">
+    <div class="container navbar">
+      <div class="title"><a href="/">台北一日遊</a></div>
+      <div class="menu">
+          <div class="menu_btn" id="menu_booking-btn">預定行程</div>
+          <div class="menu_btn" id="menu_auth-container"></div>
+      </div>
+    </div>
+  </div>
+  <div class="top-space"></div>
   
+  <!-- 預定行程 -->
+  <div class="container booking-section" id="booking-container">
+    <div class="booking-title font-btn bold">您好，<span id="user-name"></span>，待預訂的行程如下：</div>
+    <!-- 已訂行程 -->
+    <div class="non-booking" id="non-booking">目前沒有任何待預訂的行程</div>
+  </div>
+
+  <!-- 聯絡資訊 -->
+  <div class="container booking-section booking-hidden">
+    <form class="form font-body margin-box" id="contact-form">
+      <div class="form_title font-btn bold">您的聯絡資訊</div>
+      <div class="form_info">
+        <div class="form_label">聯絡姓名：
+          <input type="text" id="name" class="form_input" required>        
+        </div>
+        <div class="form_label">連絡信箱：
+          <input type="text" id="email" class="form_input" required>        
+        </div> 
+        <div class="form_label">手機號碼：
+          <input type="text" id="mobile" class="form_input" required>        
+        </div> 
+      </div>
+      <div class="form-notice bold">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
+    </form>
+  </div>
+
+  <!-- 付款資訊 -->
+  <div class="container booking-section booking-hidden">
+    <form class="form font-body margin-box" id="payment-form">
+      <div class="form_title font-btn bold">信用卡付款資訊</div>
+      <div class="form_info">
+        <div class="form_label">卡片號碼：
+          <input type="text" id="card-number" class="form_input" placeholder="**** **** **** ****" inputmode="numeric" maxlength="19" required>        
+        </div>
+        <div class="form_label">過期時間：
+          <input type="text" id="card-exp" class="form_input" placeholder="MM / YY" inputmode="numeric" maxlength="7" required>        
+        </div> 
+        <div class="form_label">驗證密碼：
+          <input type="text" id="card-cvv" class="form_input" placeholder="CVV" inputmode="numeric" maxlength="3" required>        
+        </div> 
+      </div>
+    </form>
+  </div>
+
+  <!-- 確認鍵 -->
+  <div class="container booking-section booking-hidden">
+    <div class="margin-box comfirm-section">
+      <div class="comfirm-text font-body bold">總價：新台幣 <span id="total-price">2000</span> 元</div>
+      <div class="comfirm-btn font-btn">確認訂購並付款</div>
+    </div>
+  </div>
+  
+  <!-- footer -->
+  <div class="footer">
+    <div class="font-body bold">COPYRIGHT © 2021 台北一日遊</div>
+  </div>
 </body>
 </html>

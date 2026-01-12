@@ -104,6 +104,14 @@
     background-color: #337788;
 }
 
+.check-alert {
+    color: #e55557;
+    display: none;
+    font-weight: 400;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
 /* input 樣式修改 */
 .radio-container {
     position: relative;

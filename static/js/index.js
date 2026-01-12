@@ -1,7 +1,18 @@
+import { initAuth } from "./auth.js";
+
 let nextPage = 0; // 初始載入第0頁
 let isloading = false; // 紀錄是否正在載入
 let category = ""; // 初始分類
 let keyword = ""; // 初始關鍵字
+
+// 初始載入第一頁資料
+document.addEventListener("DOMContentLoaded", () => {
+    // 驗證登入，渲染導覽列
+    initAuth();
+
+    loadAttractions();
+    initMrtList();
+});
 
 // 載入景點資料
 function loadAttractions() {
@@ -170,6 +181,3 @@ const footer = document.querySelector(".footer");
 observer.observe(footer); // 監測 footer 元素
 
 
-// 初始載入第一頁資料
-loadAttractions();
-initMrtList();
