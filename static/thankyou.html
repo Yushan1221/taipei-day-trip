@@ -3,9 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/booking.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script type="module" src="/static/js/thankyou.js"></script>
   <title>Thank You</title>
 </head>
 <body>
-  
+  <!-- loading -->
+  <div id="loading-overlay" class="loading-overlay" style="display: none;">
+    <div class="loader"></div>
+  </div>
+
+  <!-- 導覽列 -->
+  <div class="header ">
+    <div class="container navbar">
+      <div class="title"><a href="/">台北一日遊</a></div>
+      <div class="menu">
+          <div class="menu_btn" id="menu_booking-btn">預定行程</div>
+          <div class="menu_btn" id="menu_auth-container"></div>
+      </div>
+    </div>
+  </div>
+  <div class="top-space"></div>
+
+  <!-- 下單行程 -->
+  <div class="container booking-section" id="booking-container">
+    <div class="booking-title font-btn bold">行程預定成功，訂單編號：<span id="order-number"></span></div>
+    <!-- 已付費行程 -->
+    <div class="non-booking" id="non-booking">此訂單編號查無資料，請聯絡我們確認。</div>
+  </div>
+
+  <!-- footer -->
+  <div class="footer">
+    <div class="font-body bold">COPYRIGHT © 2021 台北一日遊</div>
+  </div>
 </body>
 </html>

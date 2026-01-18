@@ -1,5 +1,8 @@
 import { initAuth, getUserInfo } from "./auth.js";
 import { showErrorMessage, confirmDelete, showLoading, hideLoading } from "./utils.js";
+import { getPrime } from "./payment.js";
+
+let bookingData = null;
 
 window.addEventListener("DOMContentLoaded", () => {
     // 驗證登入，渲染導覽列
@@ -8,6 +11,12 @@ window.addEventListener("DOMContentLoaded", () => {
     initBookingAPI();
     // 檢查付款欄位
     checkOrderFields();
+
+    // order button
+    const contactForm = document.getElementById("contact-form");
+    if (contactForm) {
+        contactForm.addEventListener("submit", handlePayment);
+    }
 });
 
 async function initBookingAPI() {
@@ -24,6 +33,12 @@ async function initBookingAPI() {
     // 渲染姓名
     const userName = document.getElementById("user-name");
     userName.innerText = user.data["name"];
+
+    // 渲染聯絡資訊
+    const contactName = document.getElementById("name");
+    const contactEmail = document.getElementById("email");
+    contactName.value = user.data["name"];
+    contactEmail.value = user.data["email"];
 
     try {
         const token = localStorage.getItem("jwt_token");
@@ -44,6 +59,7 @@ async function initBookingAPI() {
         }
 
         const booking =  await response.json();
+        bookingData = booking.data;
         // 渲染預定行程資訊UI
         rederBookingUI(booking.data);
         
@@ -119,7 +135,7 @@ async function deleteBooking() {
         
         location.reload();
     }
-    catch {
+    catch (err) {
         console.error("刪除預定行程資料錯誤：", err);
         showErrorMessage("刪除預定行程發生錯誤，請稍後再試。");
     }
@@ -128,33 +144,84 @@ async function deleteBooking() {
     }
 } 
 
-// 檢查付款欄位
+// 檢查聯絡資訊欄位
 function checkOrderFields() {
-    // 信用卡號碼，每 4 碼自動空一格
-    const cardNumber = document.getElementById('card-number');
-    cardNumber.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, ''); // 移除所有非數字
-        let formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 '); // 每4碼加一個空格
-        e.target.value = formattedValue;
-    });
-
-    // 過期時間，MM / YY 格式
-    const cardExp = document.getElementById('card-exp');
-    cardExp.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, ''); // 移除所有非數字
-        
-        if (value.length > 2) {
-            // 在前兩碼後面加上 " / "
-            e.target.value = value.substring(0, 2) + ' / ' + value.substring(2, 4);
-        } else {
-            e.target.value = value;
-        }
-    });
-
-    // CVV，純數字限制
-    const cardCvv = document.getElementById('card-cvv');
-    cardCvv.addEventListener('input', (e) => {
+    // 剩下的改成用 input form 檢查
+    // 手機，純數字限制
+    const contactMobile = document.getElementById("mobile");
+    contactMobile.addEventListener('input', (e) => {
         // 只允許輸入數字
         e.target.value = e.target.value.replace(/\D/g, '');
     });
+}
+
+
+export async function handlePayment(e) {
+    showLoading();
+
+    try {
+        // 阻止發送 form
+        e.preventDefault();
+        // 檢查必填
+        if (!e.target.reportValidity()) {
+            return;
+        }
+
+        // 取值
+        const contactName = document.getElementById("name").value;
+        const contactEmail = document.getElementById("email").value;
+        const contactMobile = document.getElementById("mobile").value;
+
+        // 取 prime
+        const prime = await getPrime();
+        if (!prime) return;
+
+        const token = localStorage.getItem("jwt_token");
+        const response = await fetch("/api/orders", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                "prime": prime,
+                "order": {
+                    "price": bookingData.price,
+                    "trip": {
+                        "attraction": bookingData.attraction,
+                        "date": bookingData.date,
+                        "time": bookingData.time
+                    },
+                    "contact": {
+                        "name": contactName,
+                        "email": contactEmail,
+                        "phone": contactMobile
+                    }
+                }
+            })
+        });
+
+        const data = await response.json();
+        if (response.status === 400) {
+            showErrorMessage(data["message"]);
+            return;
+        }
+        if (response.status === 403) {
+            showErrorMessage("未登入系統，請登入後再試。");
+            return;
+        }
+        if(!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`);
+        }
+        
+        // 導到 thankyou page
+        window.location.href = `/thankyou?number=${data.data.number}`;
+    }
+    catch {
+        console.error("訂購與付款預定行程發生錯誤：", err);
+        showErrorMessage("訂購與付款預定行程發生錯誤，請稍後再試。");
+    }
+    finally {
+        hideLoading();
+    }
 }
