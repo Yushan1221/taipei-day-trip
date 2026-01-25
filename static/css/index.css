@@ -42,6 +42,11 @@
     height: 46px;
     text-wrap: nowrap;
     position: relative;
+    transition: all 0.3s ease;
+}
+
+.selector:hover {
+    background-color: #E8E8E8;
 }
 
 .category-block {
@@ -50,15 +55,23 @@
     left: 0;
     margin-top: 5px;
     background-color: #FFFFFF;
-    display: none;
-    grid-template-columns: repeat(3, 1fr);
     border-radius: 5px;
     box-shadow: 0px 0px 20px 0px #AABBCC;
     z-index: 100;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    /* 浮出動畫 */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-15px); /* 起始位置比正常位置高 15px */
+    transition: all 0.2s ease;
 }
 
 .category-block.active {
-    display: grid;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 .category-block__item {
@@ -183,6 +196,13 @@
     border: 1px solid #E8E8E8;
     overflow: hidden;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.attraction-block__card:hover {
+    transform: scale(1.02);
+    z-index: 1;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
 
 .card-img {
@@ -215,6 +235,11 @@
     color: #757575;
 }
 
+.none-attraction {
+    color: #666666;
+    text-align: center;
+    padding: 30px;
+}
 
 /* RWD */
 /* desktop 1200px up*/

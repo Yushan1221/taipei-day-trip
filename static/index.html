@@ -10,7 +10,6 @@
   <title>Index</title>
 </head>
 <body>
-
   <div class="header ">
     <div class="container navbar">
       <div class="title"><a href="/">台北一日遊</a></div>
@@ -41,7 +40,7 @@
   </div>
 
   <div class="container attraction-section">
-    <div class="list-bar">
+    <div class="list-bar" id="mrt-bar">
       <div id="left-btn" class="arrow-btn"></div>
       <div class="mrt-list">
         <!-- 捷運站列表 -->
@@ -53,6 +52,11 @@
   <div class="main-container container">
     <div class="attraction-block" id="attraction-block">
       <!-- 景點卡片 -->
+    </div>
+
+    <!-- loading -->
+    <div id="loading-overlay" class="loading-attr" style="display: none;">
+      <div class="loader"></div>
     </div>
   </div>
 
