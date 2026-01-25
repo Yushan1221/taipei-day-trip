@@ -66,7 +66,6 @@
     cursor: pointer;
 }
 
-
 .form {
     line-height: 24px;
 }
@@ -90,7 +89,6 @@
     border-radius: 5px;
     outline: none;
     transition: box-shadow 0.2s;
-    letter-spacing: 1px;
 }
 
 .form_input:focus {
@@ -98,31 +96,58 @@
     border-color: #cccccc;
 }
 
+/* tappay 金流設定 */
+.tpfield {
+    height: 38px;
+    width: 200px;
+    border: 1px solid #E8E8E8;
+    border-radius: 5px;
+    padding: 10px;
+    /* outline: none; */
+    transition: box-shadow 0.2s;
+}
+
+.tappay-field-focus { 
+    box-shadow: 0 0 4px rgba(188, 187, 187, 0.3);
+    border-color: #cccccc;
+}
+
 /* 確認區 */
-.comfirm-section {
+.order-section {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: end;
+    padding-bottom: 25px;
 }
 
-.comfirm-text {
+.order-text {
     padding-bottom: 22px;
 }
 
-.comfirm-btn {
-    margin-bottom: 25px;
+.order-btn {
     padding: 10px 20px;
     background-color: #448899;
     color: #fff;
     border-radius: 5px;
-    cursor: pointer;
-    width: 173px;
     transition: all 0.3s;
+    border: none;
+    cursor: pointer;
 }
 
-.comfirm-btn:hover {
+.order-btn:hover {
     background-color: #337788;
+}
+
+.order-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.order-alert {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #e55557;
 }
 
 /* RWD */

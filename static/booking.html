@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/static/css/style.css">
   <link rel="stylesheet" href="/static/css/booking.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
   <script type="module" src="/static/js/booking.js"></script>
   
   <title>Booking</title>
@@ -44,10 +45,10 @@
           <input type="text" id="name" class="form_input" required>        
         </div>
         <div class="form_label">連絡信箱：
-          <input type="text" id="email" class="form_input" required>        
+          <input type="email" id="email" class="form_input" required>        
         </div> 
         <div class="form_label">手機號碼：
-          <input type="text" id="mobile" class="form_input" required>        
+          <input type="text" id="mobile" class="form_input" minlength="10" maxlength="10" required>        
         </div> 
       </div>
       <div class="form-notice bold">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
@@ -56,27 +57,26 @@
 
   <!-- 付款資訊 -->
   <div class="container booking-section booking-hidden">
-    <form class="form font-body margin-box" id="payment-form">
+    <div class="form font-body margin-box" id="payment-form">
       <div class="form_title font-btn bold">信用卡付款資訊</div>
-      <div class="form_info">
-        <div class="form_label">卡片號碼：
-          <input type="text" id="card-number" class="form_input" placeholder="**** **** **** ****" inputmode="numeric" maxlength="19" required>        
-        </div>
-        <div class="form_label">過期時間：
-          <input type="text" id="card-exp" class="form_input" placeholder="MM / YY" inputmode="numeric" maxlength="7" required>        
-        </div> 
-        <div class="form_label">驗證密碼：
-          <input type="text" id="card-cvv" class="form_input" placeholder="CVV" inputmode="numeric" maxlength="3" required>        
-        </div> 
+      <div class="form_label">卡片號碼：
+        <div tabindex="0" class="tpfield" id="card-number"></div>
       </div>
-    </form>
+      <div class="form_label">過期時間：
+        <div tabindex="0" class="tpfield" id="card-expiration-date"></div>
+      </div> 
+      <div class="form_label">驗證密碼：
+        <div tabindex="0" class="tpfield" id="card-ccv"></div>
+      </div>
+    </div>
   </div>
 
   <!-- 確認鍵 -->
   <div class="container booking-section booking-hidden">
-    <div class="margin-box comfirm-section">
-      <div class="comfirm-text font-body bold">總價：新台幣 <span id="total-price">2000</span> 元</div>
-      <div class="comfirm-btn font-btn">確認訂購並付款</div>
+    <div class="margin-box order-section">
+      <div class="order-text font-body bold">總價：新台幣 <span id="total-price">2000</span> 元</div>
+      <button type="submit" form="contact-form" class="order-btn font-btn" id="order-btn" disabled>確認訂購並付款</button>
+      <div class="order-alert" id="order-alert">* 填入付款資訊以訂購</div>
     </div>
   </div>
   
